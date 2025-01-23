@@ -278,7 +278,7 @@ context_relevance_scorer = DocumentRelevanceScorer()
 
 class RetrievalScorer(Scorer):
     @weave.op
-    def score(
+    async def score(
         self,
         question: str,
         output: list[dict[str, Any]],
@@ -295,7 +295,7 @@ class RetrievalScorer(Scorer):
             "precision": compute_precision(output_sources, contexts),
             "recall": compute_recall(output_sources, contexts),
             "f1_score": compute_f1_score(output_sources, contexts),
-            "relevance": context_relevance_scorer.score(
+            "relevance": await context_relevance_scorer.score(
                 input=question, output=output_texts
             ),
         }

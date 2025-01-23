@@ -12,11 +12,7 @@ from nltk.translate.bleu_score import SmoothingFunction, sentence_bleu
 from rouge import Rouge
 from weave.scorers import Scorer
 
-from scorers import (
-    ResponseCorrectnessScorer,
-    ResponseHelpfulnessScorer,
-    ResponseRelevanceScorer,
-)
+from scorers import ResponseCorrectnessScorer, ResponseRelevanceScorer
 
 wn.ensure_loaded()
 
@@ -138,13 +134,12 @@ def compute_meteor(output: str, answer: str) -> float:
 
 
 correctness_scorer = ResponseCorrectnessScorer()
-helpfulness_scorer = ResponseHelpfulnessScorer()
 relevance_scorer = ResponseRelevanceScorer()
 
 
 class ResponseScorer(Scorer):
     @weave.op
-    def score(
+    async def score(
         self, output: dict[str, Any], question: str, answer: str
     ) -> dict[str, Any]:
 
@@ -154,13 +149,10 @@ class ResponseScorer(Scorer):
             "rouge": compute_rouge(output.get("answer", ""), answer),
             "bleu": compute_bleu(output.get("answer", ""), answer),
             "meteor": compute_meteor(output.get("answer", ""), answer),
-            "correctness": correctness_scorer.score(
+            "correctness": await correctness_scorer.score(
                 input=question, output=output.get("answer", ""), context=answer
             ),
-            "helpfulness": helpfulness_scorer.score(
-                input=question, output=output.get("answer", ""), context=answer
-            ),
-            "relevance": relevance_scorer.score(
+            "relevance": await relevance_scorer.score(
                 input=question, output=output.get("answer", ""), context=answer
             ),
         }
