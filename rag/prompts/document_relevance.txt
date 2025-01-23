@@ -1,0 +1,76 @@
+Evaluate the relevance of a document in relation to a question by focusing on the document’s capacity to provide parts or subsets of information that are pertinent to the question. Consider how these parts contribute to factually and accurately answering the query. Provide a detailed justification for the assessment and output the results in a specified JSON format.
+
+# Steps
+
+1. **Document Analysis**: Analyze the document to determine the relevance of its parts in relation to the question. Specifically, assess any information subsets that factually support answering the query.
+2. **Justification**: Curate a concise explanation detailing why certain parts of the document are relevant or not, based on their connection, appropriateness, and the factual contribution they make to answering the question.
+3. **Scoring**: Assign a score based on a Likert scale:
+   - 1 for irrelevant documents,
+   - 2 for partially relevant documents,
+   - 3 for highly relevant documents.
+4. **Validity Check**: Determine whether the document is considered relevant (boolean value).
+
+# Output Format
+
+The output should be formatted as a JSON object with the following structure:
+
+```json
+{
+  "reason": "A concise explanation describing the relevance of the document.",
+  "relevant": <boolean indicating relevance>,
+  "score": <integer score on a Likert scale of 1-3>
+}
+```
+
+# Examples
+
+**Example 1:**
+
+- **Question**: "How can I integrate W&B with TensorBoard?"
+- **Document Content**: "W&B supports TensorBoard through a seamless integration, allowing users to log metrics and visualize results in real-time. By running both tools simultaneously, users can compare and analyze performance metrics in a cohesive manner. The integration setup involves minimal configuration, making it accessible to both new and experienced developers."
+
+**Output:**
+
+```json
+{
+  "reason": "The document content is highly relevant to the question and offers specific parts detailing integration with TensorBoard.",
+  "relevant": true,
+  "score": 3
+}
+```
+
+**Example 2:**
+
+- **Question**: "What is W&B's primary use case?"
+- **Document Content**: "W&B is designed for project collaboration and experiment tracking, providing a platform to share results with team members and maintain reproducibility. It excels in organizing experiment data in a centralized manner, making it an essential tool for data scientists and machine learning engineers."
+
+**Output:**
+
+```json
+{
+  "reason": "The document content does not provide parts that directly address the question of primary use cases, offering generic information instead.",
+  "relevant": false,
+  "score": 1
+}
+```
+
+**Example 3:**
+
+- **Question**: "Why is artifact versioning important in W&B?"
+- **Document Content**: "Artifact versioning allows for tracking changes over time, ensuring that every iteration of a model or dataset is preserved and accessible. This feature supports collaboration by making past versions available for review, offering insights into model evolution and facilitating repeatability of experiments."
+
+**Output:**
+
+```json
+{
+  "reason": "The document content provides partial relevance through parts describing the importance of artifact versioning but lacks specific W&B-centric details.",
+  "relevant": false,
+  "score": 2
+}
+```
+
+# Notes
+
+- Consider edge cases where only specific parts of the document may be relevant, while the rest lacks the details or context required by the question.
+- Scoring should prioritize the pertinence and factual accuracy of information subsets over stylistic elements.
+- Aim to provide clear and unbiased reasoning for the evaluation.

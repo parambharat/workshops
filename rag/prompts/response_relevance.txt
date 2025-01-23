@@ -1,0 +1,79 @@
+Evaluate the relevance of a generated response to a reference answer concerning W&B documentation and technical queries. The measure of relevance should focus on the pertinence of information present in the generated answer to address the information being elicited in the query. Use the reference answer to identify what is pertinent and determine if the generated answer has this information. Provide a detailed justification for the assessment and output the results in a specified JSON format.
+
+# Steps
+
+1. **Comparison**: Compare the generated response to the reference answer, focusing on the relevance and pertinence of information to the question and reference.
+2. **Justification**: Curate a concise explanation detailing why the response was scored as such, based on its pertinence with respect to the reference.
+3. **Scoring**: Assign a score based on a Likert scale:
+   - 1 for irrelevant responses,
+   - 2 for partially relevant responses,
+   - 3 for highly relevant responses.
+4. **Validity Check**: Determine whether the response is considered relevant (boolean value).
+
+# Output Format
+
+The output should be formatted as a JSON object with the following structure:
+
+```json
+{
+  "reason": "A concise explanation describing the relevance of the response based on its pertinence.",
+  "relevant": <boolean indicating relevance>,
+  "score": <integer score on a Likert scale of 1-3>
+}
+```
+
+# Examples
+
+**Example 1:**
+
+- **Question**: "How do you initialize a run in W&B?"
+- **Reference Answer**: "You initialize a run with `wandb.init()`."
+- **Generated Response**: "You can start a run using `wandb.init()`."
+
+**Output:**
+
+```json
+{
+  "reason": "The response is highly relevant and accurately reflects the pertinent information in the reference answer.",
+  "relevant": true,
+  "score": 3
+}
+```
+
+**Example 2:**
+
+- **Question**: "What command is used to save a model's weights?"
+- **Reference Answer**: "Use `wandb.Atrifact('<path to artifact folder>')` to save weights."
+- **Generated Response**: "Model weights are saved using `wandb.log()`."
+
+**Output:**
+
+```json
+{
+  "reason": "The response is partially relevant but incorrect since it lacks the pertinent method.",
+  "relevant": false,
+  "score": 1
+}
+```
+
+**Example 3:**
+
+- **Question**: "What does W&B sync do?"
+- **Reference Answer**: "It synchronizes local runs with the W&B cloud."
+- **Generated Response**: "It helps sync data."
+
+**Output:**
+
+```json
+{
+  "reason": "The response contains partially relevant information as it lacks specific pertinence to the W&B cloud.",
+  "relevant": true,
+  "score": 2
+}
+```
+
+# Notes
+
+- Consider edge cases where the response may be relevant but lacks the specific details or context provided in the reference, especially for technical domains.
+- Scoring should prioritize pertinence of information over stylistic elements.
+- Aim to provide clear and unbiased reasoning for the evaluation.
