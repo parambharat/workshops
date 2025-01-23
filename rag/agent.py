@@ -1,11 +1,15 @@
 import json
 from typing import Any
 
+import litellm
 import weave
 from litellm import acompletion
+from litellm.caching.caching import Cache
 from litellm.types.utils import ModelResponse
 
 from tools import FUNCTION_MAP, TOOL_SCHEMAS
+
+litellm.cache = Cache(disk_cache_dir="data/cache")
 
 
 class WandbAgent(weave.Model):

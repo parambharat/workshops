@@ -1,7 +1,6 @@
 import asyncio
 import os
 from functools import partial
-from threading import Lock
 from typing import Any
 
 import bm25s
@@ -232,6 +231,7 @@ class DenseSearchEngine:
                 self._vectorizer,
                 [query],
                 dimensions=512,
+                batch_size=500,
             )
         cosine_distances = cdist(query_embedding, self._index, metric="cosine")[0]
         top_k_indices = cosine_distances.argsort()[:top_k]
@@ -258,7 +258,12 @@ def make_batches_for_db(
             )
         else:
             embeddings = asyncio.run(
-                batch_embed(vectorizer, batch_texts, dimensions=dimensions)
+                batch_embed(
+                    vectorizer,
+                    batch_texts,
+                    dimensions=dimensions,
+                    batch_size=500,
+                )
             )
         yield [
             {"vector": embedding, **doc}

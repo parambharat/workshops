@@ -1,7 +1,11 @@
 from typing import Any
 
+import litellm
 import weave
 from litellm import acompletion
+from litellm.caching.caching import Cache
+
+litellm.cache = Cache(disk_cache_dir="data/cache")
 
 
 class ResponseGenerator(weave.Model):

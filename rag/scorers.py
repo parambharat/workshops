@@ -2,10 +2,14 @@ import asyncio
 from typing import Any
 
 import instructor
+import litellm
 import weave
 from litellm import acompletion
+from litellm.caching.caching import Cache
 from pydantic import BaseModel, Field
 from weave.scorers import Scorer
+
+litellm.cache = Cache(disk_cache_dir="data/cache")
 
 
 class StructuredLLMScorer(Scorer):

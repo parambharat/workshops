@@ -2,9 +2,13 @@ from enum import Enum
 from typing import Any, List
 
 import instructor
+import litellm
 import weave
 from litellm import acompletion
+from litellm.caching.caching import Cache
 from pydantic import BaseModel, Field
+
+litellm.cache = Cache(disk_cache_dir="data/cache")
 
 
 class SearchQueries(BaseModel):

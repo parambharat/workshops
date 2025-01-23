@@ -10,13 +10,11 @@ from urllib.parse import urlparse
 
 import httpx
 import urllib3.exceptions
-from crawl4ai import (AsyncWebCrawler, BrowserConfig, CacheMode,
-                      CrawlerRunConfig)
+from crawl4ai import AsyncWebCrawler, BrowserConfig, CacheMode, CrawlerRunConfig
 from crawl4ai.markdown_generation_strategy import DefaultMarkdownGenerator
 from crawl4ai.models import CrawlResult
 from lxml import etree
-from tenacity import (retry, retry_if_exception_type, stop_after_attempt,
-                      wait_fixed)
+from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_fixed
 
 import wandb
 from utils import mdify
