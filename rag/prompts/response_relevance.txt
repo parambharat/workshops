@@ -67,7 +67,7 @@ The output should be formatted as a JSON object with the following structure:
 ```json
 {
   "reason": "The response contains partially relevant information as it lacks specific pertinence to the W&B cloud.",
-  "relevant": true,
+  "relevant": false,
   "score": 2
 }
 ```
