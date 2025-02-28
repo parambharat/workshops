@@ -10,7 +10,7 @@ from nltk.corpus import wordnet as wn
 from nltk.translate import meteor
 from nltk.translate.bleu_score import SmoothingFunction, sentence_bleu
 from rouge import Rouge
-from weave.scorers import Scorer
+from weave.flow.scorer import Scorer
 
 from scorers import ResponseCorrectnessScorer, ResponseRelevanceScorer
 
