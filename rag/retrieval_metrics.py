@@ -2,7 +2,7 @@ from typing import Any
 
 import numpy as np
 import weave
-from weave.scorers import Scorer
+from weave.flow.scorer import Scorer
 
 from scorers import DocumentRelevanceScorer
 
